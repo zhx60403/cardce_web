@@ -28,9 +28,27 @@ function getRoute(pathname) {
 
 function HomeStatsShell({ route, direction, prefersReducedMotion, navigate }) {
   const active = route === 'stats' ? 'stats' : 'home';
+  const fixedChildren = (
+    <>
+      {route === 'home' ? (
+        <a
+          className="cards-add-button"
+          href="/cards/new/region"
+          aria-label="新增卡片"
+          onClick={navigate('/cards/new/region')}
+        >
+          +
+        </a>
+      ) : null}
+      <Dock active={active} navigate={navigate} />
+    </>
+  );
 
   return (
-    <PhoneShell className={route === 'stats' ? 'stats-page' : 'cards-page'}>
+    <PhoneShell
+      className={route === 'stats' ? 'stats-page' : 'cards-page'}
+      fixedChildren={fixedChildren}
+    >
       <AnimatePresence
         mode="wait"
         initial={false}
@@ -56,7 +74,6 @@ function HomeStatsShell({ route, direction, prefersReducedMotion, navigate }) {
           )}
         </motion.div>
       </AnimatePresence>
-      <Dock active={active} navigate={navigate} />
     </PhoneShell>
   );
 }

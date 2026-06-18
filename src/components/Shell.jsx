@@ -1,9 +1,12 @@
 import React from "react";
 
-export function PhoneShell({ className, children }) {
+export function PhoneShell({ className, children, fixedChildren }) {
   return (
     <main className="audit-canvas">
       <section className={`screen-root ${className}`}>{children}</section>
+      {fixedChildren ? (
+        <div className="screen-fixed-layer">{fixedChildren}</div>
+      ) : null}
     </main>
   );
 }

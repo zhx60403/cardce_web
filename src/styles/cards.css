@@ -2,8 +2,8 @@
 /* Cards page. Geometry is from the earlier fixed-viewport reconstruction; effects are screenshot-calibrated. */
 .cards-add-button {
   position: absolute;
-  left: 301px;
-  top: 4px;
+  left: 325px;
+  top: 24px;
   width: 44px;
   height: 44px;
   border-radius: 22px;
@@ -16,6 +16,16 @@
   line-height: 34px;
   padding-bottom: 4px;
   box-shadow: 0 10px 30px rgba(30, 48, 50, 0.04);
+}
+
+.mobile-cover .cards-add-button {
+  position: fixed;
+  left: auto;
+  right: 24px;
+  top: 24px;
+  transform: none;
+  transform-origin: top right;
+  z-index: 100;
 }
 
 .cards-stack {
@@ -306,11 +316,8 @@
   left: 0;
   top: 448px;
   width: 393px;
-  height: 304px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  scrollbar-width: none;
+  height: 542px;
+  overflow: visible;
   z-index: 2;
 }
 

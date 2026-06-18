@@ -50,8 +50,18 @@ body {
   background: var(--figma-bg);
 }
 
+.mobile-cover,
+.mobile-cover body,
+.mobile-cover #root {
+  height: auto;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
 .mobile-cover #root {
   padding: 0;
+  align-items: start;
 }
 
 a {
@@ -82,6 +92,15 @@ a {
   overflow: visible;
 }
 
+.mobile-cover .cards-page,
+.mobile-cover .cards-page .tab-content-transition-layer {
+  min-height: 1120px;
+}
+
+.mobile-cover .audit-canvas:has(.cards-page) {
+  height: calc(1120px * var(--app-scale));
+}
+
 .screen-root {
   position: absolute;
   left: 0;
@@ -99,8 +118,37 @@ a {
   background: var(--figma-bg);
 }
 
+.screen-fixed-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--target-width);
+  height: var(--target-height);
+  transform: scale(var(--app-scale));
+  transform-origin: top left;
+  pointer-events: none;
+  z-index: 80;
+}
+
+.screen-fixed-layer > * {
+  pointer-events: auto;
+}
+
 .mobile-cover .screen-root {
   border-radius: 0;
+}
+
+.mobile-cover .screen-fixed-layer {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  transform: none;
+  z-index: 100;
+}
+
+.mobile-cover .cards-page {
+  overflow: visible;
 }
 
 .cards-top-bar,
@@ -176,6 +224,16 @@ a {
   box-shadow: 0 14px 32px rgba(43, 66, 70, 0.08); /* screenshot-calibrated */
   backdrop-filter: blur(18px); /* screenshot-calibrated */
   z-index: 30;
+}
+
+.mobile-cover .dock {
+  position: fixed;
+  left: 50%;
+  top: auto;
+  bottom: 22px;
+  transform: translateX(-50%);
+  transform-origin: bottom center;
+  z-index: 100;
 }
 
 .dock-active {

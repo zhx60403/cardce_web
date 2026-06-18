@@ -108,14 +108,6 @@ export function HomePage({ navigate }) {
           <h1>卡片</h1>
           <p>3 张卡 · 本月表现实时更新</p>
         </div>
-        <a
-          className="cards-add-button"
-          href="/cards/new/region"
-          aria-label="新增卡片"
-          onClick={navigate('/cards/new/region')}
-        >
-          +
-        </a>
       </header>
 
       <section
