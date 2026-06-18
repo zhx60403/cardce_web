@@ -13,7 +13,7 @@ const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const baseline = resolve(root, "baseline-393x852.png");
 const implementation = resolve(root, "implementation.png");
 const diff = resolve(root, "diff.png");
-const auditHtml = `file://${resolve(root, "audit.html").replaceAll("\\", "/")}`;
+const auditUrl = process.env.AUDIT_URL ?? "http://127.0.0.1:5173/";
 const chromePath = "C:/Users/Administrator/.cache/puppeteer/chrome/win64-131.0.6778.69/chrome-win64/chrome.exe";
 
 async function screenshot() {
@@ -24,7 +24,7 @@ async function screenshot() {
     style.textContent = "*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}";
     document.documentElement.appendChild(style);
   });
-  await page.goto(auditHtml);
+  await page.goto(auditUrl, { waitUntil: "networkidle" });
   await page.evaluate(async () => {
     if ("fonts" in document) await document.fonts.ready;
   });
