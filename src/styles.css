@@ -74,6 +74,18 @@ a {
   will-change: transform, opacity, filter;
 }
 
+.cards-page .tab-content-transition-layer {
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-bottom: 112px;
+  scrollbar-width: none;
+}
+
+.cards-page .tab-content-transition-layer::-webkit-scrollbar {
+  display: none;
+}
+
 .audit-canvas {
   position: relative;
   width: var(--scaled-width);
@@ -245,6 +257,13 @@ a {
   top: 88px;
   width: 345px;
   height: 360px;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.cards-stack:active {
+  cursor: grabbing;
 }
 
 .bank-card {
@@ -253,6 +272,8 @@ a {
   color: #fff;
   border: 1px solid #ffffff47;
   box-shadow: 0 18px 38px rgba(31, 70, 72, 0.18);
+  touch-action: none;
+  will-change: left, top, width, height, opacity, transform;
 }
 
 .smart-card {
@@ -475,6 +496,44 @@ a {
   left: 256px;
 }
 
+.detail-card-link {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  -webkit-user-drag: none;
+}
+
+.card-stack-indicators {
+  position: absolute;
+  left: 139px;
+  top: 328px;
+  width: 68px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  z-index: 4;
+}
+
+.card-stack-indicators button {
+  width: 8px;
+  height: 8px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: #c9d7d6;
+  appearance: none;
+  cursor: pointer;
+  transition: width 0.2s ease, background 0.2s ease;
+}
+
+.card-stack-indicators button.active {
+  width: 22px;
+  background: #0f8a80;
+}
+
 .cards-summary-panel,
 .cards-rule-panel,
 .cards-recent-panel {
@@ -586,6 +645,7 @@ a {
   height: 8px;
   border-radius: 4px;
   background: #c79a2f;
+  transition: width 0.22s ease;
 }
 
 .cards-recent-panel {
@@ -597,6 +657,7 @@ a {
   border-radius: 26px;
   background: #ffffff9e;
   box-shadow: 0 12px 30px rgba(55, 76, 80, 0.07);
+  overflow: hidden;
 }
 
 .cards-recent-panel h2 {
@@ -604,6 +665,29 @@ a {
   font-size: 17px;
   font-weight: 600;
   line-height: 21px;
+}
+
+.transaction-list {
+  height: 173px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-right: 4px;
+  overscroll-behavior: contain;
+  scrollbar-color: rgba(15, 138, 128, 0.36) transparent;
+  scrollbar-width: thin;
+}
+
+.transaction-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.transaction-list::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(15, 138, 128, 0.36);
+}
+
+.transaction-list .transaction-row:first-child {
+  margin-top: 0;
 }
 
 .transaction-row {
@@ -1757,12 +1841,6 @@ a {
 }
 
 /* Card detail page. Geometry, text and fills are from MCP frame 6:184; shadows/blur are screenshot-calibrated. */
-.detail-card-link {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-}
-
 .detail-hero-card {
   position: absolute;
   left: 24px;

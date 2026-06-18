@@ -20,10 +20,111 @@ import './styles.css';
 
 const routeOrder = { home: 0, addRegion: 1, detail: 2, stats: 3 };
 
-const transactions = [
-  ['Starbucks', '餐饮 · 今天', 'HKD 68', '返现 5.03'],
-  ['Deliveroo', '餐饮 · 今天', 'HKD 185', '返现 13.69'],
-  ['HKTVmall', '网上消费 · 今天', 'HKD 1,280', '返现 51.20']
+const cardDeck = [
+  {
+    id: 'smart',
+    bank: 'Standard Chartered',
+    name: 'Smart Card',
+    cardMetric: '本月 HKD 93.62',
+    summaryValue: '本月累计：HKD 93.62',
+    summaryText:
+      'Smart Card 本月累计 HKD 93.62，日常餐饮和交通消费保持稳定回赠。',
+    ruleValue: '稳定回赠',
+    ruleText: '日常消费回赠持续累积 · 本月还有 HKD 1,200 可用额度',
+    ruleProgress: 146,
+    last4: '•••• 2468',
+    rate: '5%',
+    network: 'VISA',
+    visualClass: 'smart-card',
+    transactions: [
+      ['Shake Shack', '餐饮 · 今天', 'HKD 96', '返现 4.80'],
+      ['MTR', '交通 · 今天', 'HKD 18', '返现 0.90'],
+      ['Pacific Coffee', '餐饮 · 昨天', 'HKD 42', '返现 2.10'],
+      ['Wellcome', '超市 · 昨天', 'HKD 238', '返现 4.76'],
+      ['CitySuper', '超市 · 周一', 'HKD 412', '返现 8.24']
+    ]
+  },
+  {
+    id: 'red',
+    bank: 'HSBC',
+    name: 'Red Card',
+    cardMetric: '本月 HKD 158.20',
+    summaryValue: '本月累计：HKD 158.20',
+    summaryText: 'Red Card 本月累计 HKD 158.20，线上购物交易占比最高。',
+    ruleValue: '线上优先',
+    ruleText: '线上消费 4% 回赠 · 距离本月上限还有 HKD 860',
+    ruleProgress: 184,
+    last4: '•••• 1357',
+    rate: '4%',
+    network: 'VISA',
+    visualClass: 'red-card',
+    transactions: [
+      ['HKTVmall', '网上消费 · 今天', 'HKD 1,280', '返现 51.20'],
+      ['Apple Store', '网上消费 · 昨天', 'HKD 688', '返现 27.52'],
+      ['Zara', '购物 · 昨天', 'HKD 429', '返现 17.16'],
+      ['Netflix', '订阅 · 周二', 'HKD 93', '返现 3.72'],
+      ['Taobao', '网上消费 · 周一', 'HKD 356', '返现 14.24']
+    ]
+  },
+  {
+    id: 'pulse',
+    bank: 'HSBC',
+    name: 'Pulse Card',
+    cardMetric: '预计 HKD 486.32',
+    summaryValue: '本月累计：HKD 486.32',
+    summaryText: 'Pulse Card 本月累计 HKD 486.32，餐饮与线上消费贡献最高。',
+    ruleValue: '额度接近',
+    ruleText: '餐饮高返现额度仅剩 HKD 540 · 网上消费 5 天后重置',
+    ruleProgress: 208,
+    last4: '•••• 8821',
+    rate: '7.4%',
+    network: 'VISA',
+    visualClass: 'pulse-card',
+    detailPath: '/cards/pulse',
+    transactions: [
+      ['Starbucks', '餐饮 · 今天', 'HKD 68', '返现 5.03'],
+      ['Deliveroo', '餐饮 · 今天', 'HKD 185', '返现 13.69'],
+      ['HKTVmall', '网上消费 · 今天', 'HKD 1,280', '返现 51.20'],
+      ['K11 Musea', '购物 · 昨天', 'HKD 760', '返现 28.12'],
+      ['Uber', '交通 · 昨天', 'HKD 116', '返现 2.78'],
+      ['Sushi Taka', '餐饮 · 周一', 'HKD 520', '返现 38.48']
+    ]
+  }
+];
+
+const transactions = cardDeck.find(card => card.id === 'pulse').transactions;
+
+const stackSlots = [
+  {
+    left: 6,
+    top: 104,
+    width: 333,
+    height: 210,
+    borderRadius: 28,
+    opacity: 1,
+    zIndex: 3,
+    scale: 1
+  },
+  {
+    left: 31,
+    top: 38,
+    width: 300,
+    height: 188,
+    borderRadius: 24,
+    opacity: 0.5,
+    zIndex: 1,
+    scale: 0.98
+  },
+  {
+    left: 14,
+    top: 72,
+    width: 318,
+    height: 200,
+    borderRadius: 26,
+    opacity: 0.72,
+    zIndex: 2,
+    scale: 0.99
+  }
 ];
 
 function getRoute(pathname) {
@@ -33,7 +134,104 @@ function getRoute(pathname) {
   return 'home';
 }
 
+function CardFace({ card }) {
+  const pulse = card.id === 'pulse';
+
+  return (
+    <>
+      {pulse ? (
+        <>
+          <div className="card-edge top" />
+          <div className="card-edge bottom" />
+          <div className="card-glow-left" />
+          <div className="card-glow-right" />
+          <div className="card-micro" />
+        </>
+      ) : (
+        <div className="card-reflection" />
+      )}
+      <span className="bank-name">{card.bank}</span>
+      <span className={`chip ${pulse ? '' : 'empty'}`}>
+        {pulse ? <span /> : null}
+      </span>
+      <strong>{card.name}</strong>
+      <em>{card.cardMetric}</em>
+      <small>{card.last4}</small>
+      <b>{card.rate}</b>
+      {pulse ? (
+        <>
+          <span className="network-dot a" />
+          <span className="network-dot b" />
+        </>
+      ) : null}
+      <i>{card.network}</i>
+    </>
+  );
+}
+
 function CardPageContent({ navigate }) {
+  const [activeCardIndex, setActiveCardIndex] = useState(2);
+  const swipeRef = useRef({ startX: 0, startY: 0, didSwipe: false });
+  const activeCard = cardDeck[activeCardIndex];
+
+  const switchCard = direction => {
+    setActiveCardIndex(
+      current => (current + direction + cardDeck.length) % cardDeck.length
+    );
+  };
+
+  const selectCard = index => {
+    setActiveCardIndex(index);
+  };
+
+  const finishSwipe = () => {
+    const { deltaX, deltaY } = swipeRef.current;
+    const horizontalSwipe =
+      Math.abs(deltaX) > 44 && Math.abs(deltaX) > Math.abs(deltaY) * 1.2;
+
+    if (!horizontalSwipe) return;
+
+    swipeRef.current.didSwipe = true;
+    switchCard(deltaX < 0 ? 1 : -1);
+  };
+
+  const handleStackPointerDown = event => {
+    event.preventDefault();
+    swipeRef.current = {
+      startX: event.clientX,
+      startY: event.clientY,
+      deltaX: 0,
+      deltaY: 0,
+      didSwipe: false
+    };
+
+    const updateSwipe = moveEvent => {
+      swipeRef.current.deltaX = moveEvent.clientX - swipeRef.current.startX;
+      swipeRef.current.deltaY = moveEvent.clientY - swipeRef.current.startY;
+    };
+    const endSwipe = endEvent => {
+      updateSwipe(endEvent);
+      window.removeEventListener('pointermove', updateSwipe);
+      window.removeEventListener('pointerup', endSwipe);
+      window.removeEventListener('pointercancel', endSwipe);
+      finishSwipe();
+    };
+
+    window.addEventListener('pointermove', updateSwipe);
+    window.addEventListener('pointerup', endSwipe);
+    window.addEventListener('pointercancel', endSwipe);
+  };
+
+  const handleCardLinkClick = path => event => {
+    if (swipeRef.current.didSwipe) {
+      event.preventDefault();
+      swipeRef.current.didSwipe = false;
+      return;
+    }
+
+    navigate(path)(event);
+  };
+
   return (
     <>
       <header className="cards-top-bar">
@@ -51,76 +249,102 @@ function CardPageContent({ navigate }) {
         </a>
       </header>
 
-      <section className="cards-stack" aria-label="信用卡堆叠">
-        <article className="bank-card smart-card">
-          <div className="card-reflection" />
-          <span className="bank-name">Standard Chartered</span>
-          <span className="chip empty" />
-          <strong>Smart Card</strong>
-          <em>本月 HKD 93.62</em>
-          <small>•••• 2468</small>
-          <b>5%</b>
-          <i>VISA</i>
-        </article>
-        <article className="bank-card red-card">
-          <div className="card-reflection" />
-          <span className="bank-name">HSBC</span>
-          <span className="chip empty" />
-          <strong>Red Card</strong>
-          <em>本月 HKD 158.20</em>
-          <small>•••• 1357</small>
-          <b>4%</b>
-          <i>VISA</i>
-        </article>
-        <a
-          className="detail-card-link"
-          href="/cards/pulse"
-          aria-label="查看 Pulse Card 单卡详情"
-          onClick={navigate('/cards/pulse')}
-        >
-          <article className="bank-card pulse-card">
-            <div className="card-edge top" />
-            <div className="card-edge bottom" />
-            <div className="card-glow-left" />
-            <div className="card-glow-right" />
-            <div className="card-micro" />
-            <span className="bank-name">HSBC</span>
-            <span className="chip">
-              <span />
-            </span>
-            <strong>Pulse Card</strong>
-            <em>预计 HKD 486.32</em>
-            <small>•••• 8821</small>
-            <b>7.4%</b>
-            <span className="network-dot a" />
-            <span className="network-dot b" />
-            <i>VISA</i>
-          </article>
-        </a>
+      <section
+        className="cards-stack"
+        aria-label="信用卡堆叠"
+        onPointerDown={handleStackPointerDown}
+      >
+        {cardDeck.map((card, index) => {
+          const slotIndex =
+            (index - activeCardIndex + cardDeck.length) % cardDeck.length;
+          const slot = stackSlots[slotIndex];
+          const isFront = slotIndex === 0;
+          const cardClassName = `bank-card stack-card ${card.visualClass}`;
+          const cardProps = {
+            className: cardClassName,
+            animate: slot,
+            initial: false,
+            transition: { duration: 0.32, ease: [0.22, 1, 0.36, 1] },
+            'aria-hidden': isFront ? 'false' : 'true'
+          };
+
+          return card.detailPath && isFront ? (
+            <motion.a
+              {...cardProps}
+              className={`${cardClassName} detail-card-link`}
+              href={card.detailPath}
+              aria-label={`查看 ${card.name} 单卡详情`}
+              key={card.id}
+              draggable="false"
+              onClick={handleCardLinkClick(card.detailPath)}
+            >
+              <CardFace card={card} />
+            </motion.a>
+          ) : (
+            <motion.article {...cardProps} key={card.id}>
+              <CardFace card={card} />
+            </motion.article>
+          );
+        })}
+
+        <div className="card-stack-indicators" aria-label="切换卡片">
+          {cardDeck.map((card, index) => (
+            <button
+              className={index === activeCardIndex ? 'active' : ''}
+              type="button"
+              aria-label={`切换到 ${card.name}`}
+              aria-pressed={index === activeCardIndex ? 'true' : 'false'}
+              key={card.id}
+              onClick={() => selectCard(index)}
+            />
+          ))}
+        </div>
       </section>
 
-      <section className="cards-summary-panel">
+      <motion.section
+        className="cards-summary-panel"
+        key={`${activeCard.id}-summary`}
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.22 }}
+      >
         <h2>当前聚焦卡片</h2>
-        <strong>本月预计返现：HKD 486.32</strong>
-        <p>Pulse Card 本月预计 HKD 486.32，餐饮与线上消费贡献最高。</p>
-      </section>
+        <strong>{activeCard.summaryValue}</strong>
+        <p>{activeCard.summaryText}</p>
+      </motion.section>
 
-      <section className="cards-rule-panel">
+      <motion.section
+        className="cards-rule-panel"
+        key={`${activeCard.id}-rule`}
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.22 }}
+      >
         <div className="cards-rule-head">
           <b>提醒</b>
-          <strong>额度接近</strong>
+          <strong>{activeCard.ruleValue}</strong>
         </div>
-        <p>餐饮高返现额度仅剩 HKD 540 · 网上消费 5 天后重置</p>
+        <p>{activeCard.ruleText}</p>
         <div className="cards-progress">
-          <span />
+          <span style={{ width: `${activeCard.ruleProgress}px` }} />
         </div>
-      </section>
+      </motion.section>
 
       <section className="cards-recent-panel">
-        <h2>最近 3 笔交易</h2>
-        {transactions.map(item => (
-          <TransactionRow key={item[0]} item={item} />
-        ))}
+        <h2>最近交易</h2>
+        <motion.div
+          className="transaction-list"
+          role="list"
+          aria-label={`${activeCard.name} 最近交易`}
+          key={`${activeCard.id}-transactions`}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.22 }}
+        >
+          {activeCard.transactions.map((item, index) => (
+            <TransactionRow key={`${item[0]}-${index}`} item={item} />
+          ))}
+        </motion.div>
       </section>
     </>
   );
@@ -667,6 +891,7 @@ function HomeStatsShell({ route, direction, prefersReducedMotion, navigate }) {
 
 function App() {
   useViewportScale();
+  useGlobalHaptics();
 
   return (
     <BrowserRouter>
@@ -786,6 +1011,31 @@ const pageVariants = {
     filter: prefersReducedMotion ? 'none' : 'blur(6px)'
   })
 };
+
+function useGlobalHaptics() {
+  useEffect(() => {
+    const handleClick = event => {
+      if (event.defaultPrevented || event.button !== 0) return;
+
+      const target = event.target.closest?.('button, a, [role="button"]');
+      if (!target) return;
+      if (
+        target.matches?.(
+          'button:disabled, [disabled], [aria-disabled="true"]'
+        )
+      )
+        return;
+
+      navigator.vibrate?.(10);
+    };
+
+    document.addEventListener('click', handleClick, true);
+
+    return () => {
+      document.removeEventListener('click', handleClick, true);
+    };
+  }, []);
+}
 
 function useViewportScale() {
   useEffect(() => {
