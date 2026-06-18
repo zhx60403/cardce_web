@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cardce Cards Audit</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <main class="audit-canvas">
+      <section class="screen-root cards-page">
+        <header class="cards-top-bar"><div class="cards-title-cluster"><h1>卡片</h1><p>3 张卡 · 本月表现实时更新</p></div><a class="cards-add-button" href="/stats" aria-label="查看统计">+</a></header>
+        <section class="cards-stack" aria-label="信用卡堆叠"><article class="bank-card smart-card"><div class="card-reflection"></div><span class="bank-name">Standard Chartered</span><span class="chip empty"></span><strong>Smart Card</strong><em>本月 HKD 93.62</em><small>•••• 2468</small><b>5%</b><i>VISA</i></article><article class="bank-card red-card"><div class="card-reflection"></div><span class="bank-name">HSBC</span><span class="chip empty"></span><strong>Red Card</strong><em>本月 HKD 158.20</em><small>•••• 1357</small><b>4%</b><i>VISA</i></article><article class="bank-card pulse-card"><div class="card-edge top"></div><div class="card-edge bottom"></div><div class="card-glow-left"></div><div class="card-glow-right"></div><div class="card-micro"></div><span class="bank-name">HSBC</span><span class="chip"><span></span></span><strong>Pulse Card</strong><em>预计 HKD 486.32</em><small>•••• 8821</small><b>7.4%</b><span class="network-dot a"></span><span class="network-dot b"></span><i>VISA</i></article></section>
+        <section class="cards-summary-panel"><h2>当前聚焦卡片</h2><strong>本月预计返现：HKD 486.32</strong><p>Pulse Card 本月预计 HKD 486.32，餐饮与线上消费贡献最高。</p></section>
+        <section class="cards-rule-panel"><div class="cards-rule-head"><b>提醒</b><strong>额度接近</strong></div><p>餐饮高返现额度仅剩 HKD 540 · 网上消费 5 天后重置</p><div class="cards-progress"><span></span></div></section>
+        <section class="cards-recent-panel"><h2>最近 3 笔交易</h2><div class="transaction-row"><div class="merchant-icon"></div><div class="transaction-text"><b>Starbucks</b><span>餐饮 · 今天</span></div><div class="transaction-amount"><b>HKD 68</b><span>返现 5.03</span></div></div><div class="transaction-row"><div class="merchant-icon"></div><div class="transaction-text"><b>Deliveroo</b><span>餐饮 · 今天</span></div><div class="transaction-amount"><b>HKD 185</b><span>返现 13.69</span></div></div><div class="transaction-row"><div class="merchant-icon"></div><div class="transaction-text"><b>HKTVmall</b><span>网上消费 · 今天</span></div><div class="transaction-amount"><b>HKD 1,280</b><span>返现 51.20</span></div></div></section>
+        <nav class="dock" aria-label="底部导航"><span class="dock-active home"></span><a class="active" href="/">首页</a><a href="/stats">统计</a></nav>
+      </section>
+    </main>
+  </body>
+</html>
