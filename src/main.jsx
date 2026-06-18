@@ -25,6 +25,27 @@ function getRoute(pathname) {
   return 'home';
 }
 
+function isHomeStatsRoute(route) {
+  return route === 'home' || route === 'stats';
+}
+
+function resetPageScroll() {
+  const reset = () => {
+    window.scrollTo({ left: 0, top: 0, behavior: 'auto' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    const root = document.getElementById('root');
+    if (root) {
+      root.scrollTop = 0;
+      root.scrollLeft = 0;
+      root.scrollTo?.({ left: 0, top: 0, behavior: 'auto' });
+    }
+  };
+
+  reset();
+  requestAnimationFrame(reset);
+}
 
 function HomeStatsShell({ route, direction, prefersReducedMotion, navigate }) {
   const active = route === 'stats' ? 'stats' : 'home';
@@ -98,6 +119,15 @@ function RoutedApp() {
   const direction = routeOrder[route] - routeOrder[previousRouteRef.current];
 
   useEffect(() => {
+    const previousRoute = previousRouteRef.current;
+    if (
+      previousRoute !== route &&
+      isHomeStatsRoute(previousRoute) &&
+      isHomeStatsRoute(route)
+    ) {
+      resetPageScroll();
+    }
+
     previousRouteRef.current = route;
   }, [route]);
 
@@ -172,7 +202,10 @@ function RoutedApp() {
             path="/cards/new/region"
             element={<AddCardFlowPage navigate={navigate} />}
           />
-          <Route path="/cards/pulse" element={<CardDetailPage />} />
+          <Route
+            path="/cards/pulse"
+            element={<CardDetailPage navigate={navigate} />}
+          />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </motion.div>

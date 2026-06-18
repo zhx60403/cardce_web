@@ -28,9 +28,36 @@ export function AddCardFlowPage({ navigate }) {
       ? 'confirm-step'
       : 'success-step';
   const isSuccessStep = step === 4;
+  const fixedChildren = (
+    <>
+      {step > 0 && !isSuccessStep ? (
+        <button
+          className="add-flow-bottom-button back"
+          type="button"
+          aria-label="返回上一步"
+          onClick={() => setStep(step - 1)}
+        >
+          ←
+        </button>
+      ) : null}
+      <button
+        className={`add-flow-bottom-button ${isSuccessStep ? 'done' : 'next'}`}
+        type="button"
+        aria-label={isSuccessStep ? '确定并返回首页' : '下一步'}
+        onClick={
+          isSuccessStep ? navigate('/') : () => setStep(Math.min(step + 1, 4))
+        }
+      >
+        {isSuccessStep ? '✓' : '→'}
+      </button>
+    </>
+  );
 
   return (
-    <PhoneShell className={`add-card-flow-page ${stepClass}`}>
+    <PhoneShell
+      className={`add-card-flow-page ${stepClass}`}
+      fixedChildren={fixedChildren}
+    >
       <FlowHeader
         title={isSuccessStep ? 'Cardce' : '新增卡'}
         subtitle={currentStep}
@@ -83,27 +110,6 @@ export function AddCardFlowPage({ navigate }) {
           {step === 4 ? <SuccessStep /> : null}
         </motion.div>
       </AnimatePresence>
-
-      {step > 0 && !isSuccessStep ? (
-        <button
-          className="add-flow-bottom-button back"
-          type="button"
-          aria-label="返回上一步"
-          onClick={() => setStep(step - 1)}
-        >
-          ←
-        </button>
-      ) : null}
-      <button
-        className={`add-flow-bottom-button ${isSuccessStep ? 'done' : 'next'}`}
-        type="button"
-        aria-label={isSuccessStep ? '确定并返回首页' : '下一步'}
-        onClick={
-          isSuccessStep ? navigate('/') : () => setStep(Math.min(step + 1, 4))
-        }
-      >
-        {isSuccessStep ? '✓' : '→'}
-      </button>
     </PhoneShell>
   );
 }
@@ -111,9 +117,11 @@ export function AddCardFlowPage({ navigate }) {
 function RegionStep({ selectedRegion, onSelectRegion }) {
   return (
     <>
+      {/*
       <div className="region-search-field" role="search">
         <span>搜索地区</span>
       </div>
+      */}
       <section className="hot-region-section" aria-label="热门地区">
         <h2>热门地区</h2>
         <div className="hot-region-list">
@@ -295,4 +303,3 @@ function SuccessStep() {
     </section>
   );
 }
-

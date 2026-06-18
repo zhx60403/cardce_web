@@ -94,11 +94,23 @@ a {
 
 .mobile-cover .cards-page,
 .mobile-cover .cards-page .tab-content-transition-layer {
-  min-height: 1120px;
+  min-height: 1320px;
 }
 
 .mobile-cover .audit-canvas:has(.cards-page) {
-  height: calc(1120px * var(--app-scale));
+  height: calc(1320px * var(--app-scale));
+}
+
+.mobile-cover .detail-page {
+  min-height: 1188px;
+}
+
+.mobile-cover .audit-canvas:has(.detail-page) {
+  height: calc(1188px * var(--app-scale));
+}
+
+.mobile-cover .page-transition-layer:has(.detail-page) {
+  height: calc(1188px * var(--app-scale));
 }
 
 .screen-root {

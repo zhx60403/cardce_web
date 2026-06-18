@@ -3,7 +3,7 @@ import { PhoneShell } from '../components/Shell.jsx';
 import { DetailRule, TransactionRow } from '../components/Rows.jsx';
 import { transactions } from '../data/mockData.js';
 
-export function CardDetailPage() {
+export function CardDetailPage({ navigate }) {
   const metrics = [
     ['本月消费', '18.6k'],
     ['平均返现', '2.61%'],
@@ -12,7 +12,19 @@ export function CardDetailPage() {
   ];
 
   return (
-    <PhoneShell className="detail-page">
+    <PhoneShell
+      className="detail-page"
+      fixedChildren={
+        <button
+          className="add-flow-bottom-button detail-back-button back"
+          type="button"
+          aria-label="返回首页"
+          onClick={navigate('/')}
+        >
+          ←
+        </button>
+      }
+    >
       <header className="detail-top-bar">
         <div className="detail-title-cluster">
           <h1>Pulse Card</h1>
@@ -25,7 +37,6 @@ export function CardDetailPage() {
         <div className="detail-ambient" />
         <div className="detail-micro" />
         <div className="detail-edge" />
-        <div className="detail-transition-anchor" />
         <span className="detail-bank">HSBC</span>
         <span className="detail-chip">
           <span className="detail-chip-inset" />
@@ -75,4 +86,3 @@ export function CardDetailPage() {
     </PhoneShell>
   );
 }
-

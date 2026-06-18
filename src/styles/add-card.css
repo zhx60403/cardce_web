@@ -57,14 +57,18 @@
 }
 
 .add-flow-bottom-button {
-  top: 776px;
+  top: auto;
+  bottom: 20px;
   width: 56px;
   height: 56px;
   border-radius: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 26px;
   font-weight: 600;
-  line-height: 31px;
-  padding: 0 0 5px;
+  line-height: 1;
+  padding: 0;
   box-shadow: 0 14px 34px rgba(43, 66, 70, 0.08); /* screenshot-calibrated */
 }
 
@@ -75,18 +79,20 @@
 }
 
 .add-flow-bottom-button.next {
-  left: 295px;
+  left: auto;
+  right: 42px;
   background: #0f8a80;
   color: #fff;
 }
 
 .add-flow-bottom-button.done {
-  left: 295px;
+  left: auto;
+  right: 42px;
   background: #0f8a80;
   color: #fff;
   font-size: 28px;
   font-weight: 700;
-  line-height: 34px;
+  line-height: 1;
 }
 
 .region-search-field {
@@ -139,17 +145,17 @@
 }
 
 .hot-region-section h2 {
-  top: 210px;
+  top: 146px;
 }
 
 .all-region-section h2 {
-  top: 304px;
+  top: 250px;
 }
 
 .hot-region-list {
   position: absolute;
   left: 42px;
-  top: 238px;
+  top: 174px;
   width: 290px;
   height: 42px;
   pointer-events: auto;
@@ -204,7 +210,7 @@
 .region-row-list {
   position: absolute;
   left: 42px;
-  top: 334px;
+  top: 280px;
   width: 309px;
   height: 336px;
   pointer-events: auto;

@@ -316,7 +316,7 @@
   left: 0;
   top: 448px;
   width: 393px;
-  height: 542px;
+  height: auto;
   overflow: visible;
   z-index: 2;
 }
@@ -328,20 +328,20 @@
 .cards-scroll-inner {
   position: relative;
   width: 393px;
-  height: 542px;
-  padding-bottom: 28px;
+  height: auto;
+  padding-bottom: 132px;
 }
 
 .cards-summary-panel,
 .cards-rule-panel,
 .cards-recent-panel {
-  position: absolute;
+  position: relative;
   backdrop-filter: blur(18px);
 }
 
 .cards-summary-panel {
   left: 24px;
-  top: 464px;
+  top: 16px;
   width: 345px;
   height: 146px;
   padding: 16px 20px;
@@ -381,7 +381,7 @@
 
 .cards-rule-panel {
   left: 24px;
-  top: 626px;
+  top: 32px;
   width: 345px;
   height: 104px;
   padding: 13px 0 0 16px;
@@ -391,7 +391,7 @@
 }
 
 .cards-scroll-content .cards-rule-panel {
-  top: 178px;
+  top: 32px;
 }
 
 .cards-rule-head {
@@ -456,18 +456,19 @@
 
 .cards-recent-panel {
   left: 24px;
-  top: 746px;
+  top: 48px;
   width: 345px;
-  height: 230px;
+  min-height: 230px;
+  height: auto;
   padding: 14px;
   border-radius: 26px;
   background: #ffffff9e;
   box-shadow: 0 12px 30px rgba(55, 76, 80, 0.07);
-  overflow: hidden;
+  overflow: visible;
 }
 
 .cards-scroll-content .cards-recent-panel {
-  top: 298px;
+  top: 48px;
 }
 
 .cards-recent-panel h2 {
@@ -478,13 +479,10 @@
 }
 
 .transaction-list {
-  min-height: 173px;
-  overflow-x: hidden;
-  overflow-y: auto;
+  height: auto;
+  min-height: 0;
+  overflow: visible;
   padding-right: 4px;
-  overscroll-behavior: contain;
-  scrollbar-color: rgba(15, 138, 128, 0.36) transparent;
-  scrollbar-width: thin;
 }
 
 .transaction-list::-webkit-scrollbar {
