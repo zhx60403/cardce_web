@@ -1,0 +1,379 @@
+@layer components {
+/* Card detail page. Geometry, text and fills are from MCP frame 6:184; shadows/blur are screenshot-calibrated. */
+.detail-hero-card {
+  position: absolute;
+  left: 24px;
+  top: 88px;
+  width: 345px;
+  height: 216px;
+  border-radius: 30px;
+  background: #06796f;
+  border: 1px solid #ffffff47;
+  overflow: visible;
+  color: #fff;
+  box-shadow: 0 24px 52px rgba(16, 70, 68, 0.18);
+}
+
+.detail-reflection,
+.detail-ambient,
+.detail-micro,
+.detail-edge,
+.detail-transition-anchor,
+.detail-chip,
+.detail-chip span,
+.detail-network-dot,
+.detail-bank,
+.detail-card-name,
+.detail-cashback,
+.detail-last4,
+.detail-rate,
+.detail-network {
+  position: absolute;
+}
+
+.detail-reflection {
+  left: 130px;
+  top: 18px;
+  width: 160px;
+  height: 52px;
+  border-radius: 26px;
+  background: #ffffff29;
+}
+
+.detail-ambient {
+  left: 188px;
+  top: 18px;
+  width: 182px;
+  height: 182px;
+  border-radius: 50%;
+  background: #d8fff8;
+  opacity: 0.12; /* screenshot-calibrated */
+}
+
+.detail-micro {
+  left: 96px;
+  top: 24px;
+  width: 220px;
+  height: 20px;
+  border-radius: 10px;
+  background: #ffffff;
+  opacity: 0.12; /* screenshot-calibrated */
+}
+
+.detail-edge {
+  left: 18px;
+  top: 10px;
+  width: 309px;
+  height: 2px;
+  border-radius: 1px;
+  background: #fff;
+  opacity: 0.48; /* screenshot-calibrated */
+}
+
+.detail-transition-anchor {
+  left: 20px;
+  top: 224px;
+  width: 305px;
+  height: 4px;
+  border-radius: 2px;
+  background: #0f7f75;
+  opacity: 0.3; /* screenshot-calibrated */
+}
+
+.detail-bank {
+  left: 24px;
+  top: 24px;
+  width: 150px;
+  height: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.detail-chip {
+  left: 24px;
+  top: 58px;
+  width: 42px;
+  height: 30px;
+  border-radius: 7px;
+  background: #f1d381;
+  overflow: hidden;
+}
+
+.detail-chip-inset {
+  left: 7px;
+  top: 5px;
+  width: 26px;
+  height: 20px;
+  border-radius: 4px;
+  background: #ffe8a6;
+}
+
+.detail-chip-v {
+  left: 19px;
+  top: 2px;
+  width: 1px;
+  height: 28px;
+  border-radius: 0.5px;
+  background: #8c6218;
+}
+
+.detail-chip-h {
+  left: 3px;
+  top: 14px;
+  width: 36px;
+  height: 1px;
+  border-radius: 0.5px;
+  background: #8c6218;
+}
+
+.detail-card-name {
+  left: 24px;
+  top: 102px;
+  width: 190px;
+  height: 25px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 25px;
+  white-space: nowrap;
+}
+
+.detail-cashback {
+  left: 24px;
+  top: 134px;
+  width: 150px;
+  height: 15px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 15px;
+  white-space: nowrap;
+}
+
+.detail-last4 {
+  left: 24px;
+  top: 160px;
+  width: 110px;
+  height: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.detail-rate {
+  left: 205px;
+  top: 102px;
+  width: 84px;
+  height: 30px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 30px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.detail-network {
+  left: 234px;
+  top: 160px;
+  width: 58px;
+  height: 16px;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.detail-network-dot {
+  top: 150px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #fff;
+  opacity: 0.36; /* screenshot-calibrated */
+}
+
+.detail-network-dot.dot-a {
+  left: 237px;
+}
+
+.detail-network-dot.dot-b {
+  left: 256px;
+}
+
+.detail-metric-strip {
+  position: absolute;
+  left: 24px;
+  top: 320px;
+  width: 345px;
+  height: 60px;
+}
+
+.detail-metric {
+  position: absolute;
+  top: 0;
+  width: 75px;
+  height: 56px;
+  border-radius: 22px;
+  background: #ffffff9e;
+  backdrop-filter: blur(18px); /* screenshot-calibrated */
+  box-shadow: 0 10px 26px rgba(43, 66, 70, 0.05); /* screenshot-calibrated */
+}
+
+.detail-metric:nth-child(1) {
+  left: 0;
+}
+
+.detail-metric:nth-child(2) {
+  left: 90px;
+}
+
+.detail-metric:nth-child(3) {
+  left: 180px;
+}
+
+.detail-metric:nth-child(4) {
+  left: 270px;
+}
+
+.detail-metric span {
+  position: absolute;
+  left: 4.5px;
+  top: 12px;
+  width: 66px;
+  height: 32px;
+  color: #53666b;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 14px;
+  text-align: center;
+}
+
+.detail-rule-card {
+  position: absolute;
+  left: 24px;
+  width: 317px;
+  height: 104px;
+  padding: 13px 0 0 16px;
+  border-radius: 22px;
+  background: #ffffffb8;
+  backdrop-filter: blur(18px); /* screenshot-calibrated */
+  box-shadow: 0 14px 30px rgba(55, 76, 80, 0.06); /* screenshot-calibrated */
+}
+
+.cashback-rule {
+  top: 396px;
+}
+
+.quota-rule {
+  top: 516px;
+}
+
+.detail-rule-head {
+  position: absolute;
+  left: 16px;
+  top: 13px;
+  width: 285px;
+  height: 28px;
+}
+
+.detail-rule-head b,
+.detail-rule-head strong {
+  position: absolute;
+  white-space: nowrap;
+}
+
+.detail-rule-head b {
+  left: 0;
+  top: 4.5px;
+  width: 190px;
+  height: 19px;
+  color: #102124;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 19px;
+}
+
+.detail-rule-head strong {
+  left: 189px;
+  top: 2.5px;
+  width: 96px;
+  height: 23px;
+  color: #0e7772;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 23px;
+  text-align: right;
+}
+
+.quota-rule .detail-rule-head strong {
+  color: #9b741c;
+}
+
+.detail-rule-card p {
+  position: absolute;
+  left: 16px;
+  top: 49px;
+  margin: 0;
+  width: 280px;
+  height: 15px;
+  color: #6d7b80;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 15px;
+  white-space: nowrap;
+}
+
+.detail-progress {
+  position: absolute;
+  left: 16px;
+  top: 72px;
+  width: 285px;
+  height: 8px;
+  border-radius: 4px;
+  background: #e6eef0;
+  overflow: hidden;
+}
+
+.detail-progress span {
+  display: block;
+  height: 8px;
+  border-radius: 4px;
+}
+
+.cashback-rule .detail-progress span {
+  width: 225.15px;
+  background: #0e7772;
+}
+
+.quota-rule .detail-progress span {
+  width: 208.05px;
+  background: #d2a72c;
+}
+
+.detail-transactions {
+  position: absolute;
+  left: 24px;
+  top: 636px;
+  width: 345px;
+  height: 230px;
+  padding: 14px;
+  border-radius: 26px;
+  background: #ffffff9e;
+  backdrop-filter: blur(18px); /* screenshot-calibrated */
+  box-shadow: 0 12px 30px rgba(55, 76, 80, 0.07); /* screenshot-calibrated */
+}
+
+.detail-transactions h2 {
+  margin: 0 0 8px;
+  width: 300px;
+  height: 21px;
+  color: #102124;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 21px;
+}
+}
