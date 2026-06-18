@@ -1,5 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate
+} from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import {
   Dock,
@@ -659,19 +667,24 @@ function HomeStatsShell({ route, direction, prefersReducedMotion, navigate }) {
 
 function App() {
   useViewportScale();
+
+  return (
+    <BrowserRouter>
+      <RoutedApp />
+    </BrowserRouter>
+  );
+}
+
+function RoutedApp() {
   const prefersReducedMotion = useReducedMotion();
-  const [route, setRoute] = useState(() => getRoute(window.location.pathname));
-  const [direction, setDirection] = useState(0);
+  const location = useLocation();
+  const routerNavigate = useNavigate();
+  const route = getRoute(location.pathname);
+  const previousRouteRef = useRef(route);
+  const direction = routeOrder[route] - routeOrder[previousRouteRef.current];
 
   useEffect(() => {
-    const handlePopState = () => {
-      const nextRoute = getRoute(window.location.pathname);
-      setDirection(routeOrder[nextRoute] - routeOrder[route]);
-      setRoute(nextRoute);
-    };
-
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    previousRouteRef.current = route;
   }, [route]);
 
   const navigate = to => event => {
@@ -687,30 +700,39 @@ function App() {
       event.preventDefault();
     }
 
-    if (window.location.pathname === to) return;
-    const nextRoute = getRoute(to);
-    setDirection(routeOrder[nextRoute] - routeOrder[route]);
-    window.history.pushState({}, '', to);
-    setRoute(nextRoute);
+    if (location.pathname === to) return;
+    routerNavigate(to);
   };
 
   if (route === 'home' || route === 'stats') {
     return (
-      <HomeStatsShell
-        route={route}
-        direction={direction}
-        prefersReducedMotion={prefersReducedMotion}
-        navigate={navigate}
-      />
+      <Routes location={location}>
+        <Route
+          path="/"
+          element={
+            <HomeStatsShell
+              route="home"
+              direction={direction}
+              prefersReducedMotion={prefersReducedMotion}
+              navigate={navigate}
+            />
+          }
+        />
+        <Route
+          path="/stats"
+          element={
+            <HomeStatsShell
+              route="stats"
+              direction={direction}
+              prefersReducedMotion={prefersReducedMotion}
+              navigate={navigate}
+            />
+          }
+        />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     );
   }
-
-  const fullPage =
-    route === 'addRegion' ? (
-      <AddCardFlowPage navigate={navigate} />
-    ) : (
-      <CardDetailPage />
-    );
 
   return (
     <AnimatePresence
@@ -731,7 +753,14 @@ function App() {
           ease: [0.22, 1, 0.36, 1]
         }}
       >
-        {fullPage}
+        <Routes location={location}>
+          <Route
+            path="/cards/new/region"
+            element={<AddCardFlowPage navigate={navigate} />}
+          />
+          <Route path="/cards/pulse" element={<CardDetailPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </motion.div>
     </AnimatePresence>
   );
@@ -761,7 +790,19 @@ const pageVariants = {
 function useViewportScale() {
   useEffect(() => {
     const updateScale = () => {
-      const scale = Math.min(window.innerWidth / 393, window.innerHeight / 852);
+      const widthRatio = window.innerWidth / 393;
+      const heightRatio = window.innerHeight / 852;
+      const mobileViewport =
+        window.innerWidth <= 600 ||
+        window.matchMedia('(hover: none), (pointer: coarse)').matches;
+      const scale = mobileViewport
+        ? Math.max(widthRatio, heightRatio)
+        : Math.min(widthRatio, heightRatio);
+
+      document.documentElement.classList.toggle(
+        'mobile-cover',
+        mobileViewport
+      );
       document.documentElement.style.setProperty('--app-scale', String(scale));
       document.documentElement.style.setProperty(
         '--scaled-width',
