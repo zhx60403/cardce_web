@@ -56,6 +56,22 @@
   box-shadow: 0 12px 28px rgba(43, 66, 70, 0.055); /* screenshot-calibrated */
 }
 
+.add-flow-fixed-layer {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: var(--target-width);
+  height: var(--target-height);
+  transform: translate(-50%, -50%) scale(var(--app-scale));
+  transform-origin: center;
+  pointer-events: none;
+  z-index: 150;
+}
+
+.add-flow-fixed-layer > * {
+  pointer-events: auto;
+}
+
 .add-flow-bottom-button {
   top: auto;
   bottom: 20px;
@@ -149,7 +165,7 @@
 }
 
 .all-region-section h2 {
-  top: 250px;
+  top: 146px;
 }
 
 .hot-region-list {
@@ -210,7 +226,7 @@
 .region-row-list {
   position: absolute;
   left: 42px;
-  top: 280px;
+  top: 174px;
   width: 309px;
   height: 336px;
   pointer-events: auto;
@@ -321,7 +337,7 @@
 .bank-list {
   position: absolute;
   left: 42px;
-  top: 236px;
+  top: 166px;
   width: 309px;
   height: 478px;
   margin: 0;
@@ -461,7 +477,7 @@
   top: 0;
   height: 158px;
   border-radius: 28px;
-  background: #eaf8f6;
+  background: #f8fafa;
 }
 
 .product-option.compact {
@@ -614,7 +630,7 @@
 
 .product-option b {
   left: 274px;
-  top: 20px;
+  top: 12px;
   width: 16px;
   height: 22px;
   color: #08776e;
@@ -814,7 +830,9 @@
 }
 
 .confirm-field span,
-.confirm-field strong {
+.confirm-field strong,
+.confirm-field input,
+.confirm-field select {
   position: absolute;
   left: 18px;
   letter-spacing: 0;
@@ -838,6 +856,26 @@
   font-size: 16px;
   font-weight: 600;
   line-height: 19px; /* screenshot-calibrated; MCP did not return this field */
+}
+
+.confirm-field input,
+.confirm-field select {
+  top: 29px;
+  width: 108px;
+  height: 19px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #102124;
+  font: 600 16px/19px "Inter", system-ui, sans-serif;
+  appearance: none;
+}
+
+.confirm-field select {
+  width: 112px;
+  cursor: pointer;
 }
 
 .confirm-rules-summary {
@@ -1088,5 +1126,82 @@
   line-height: 16px; /* screenshot-calibrated; MCP did not return this field */
   letter-spacing: 0;
   white-space: nowrap;
+}
+
+@keyframes add-card-to-wallet {
+  0% {
+    transform: translate3d(0, -18px, 0) scale(0.9) rotate(-4deg);
+    opacity: 0;
+  }
+
+  18% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+
+  62% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+
+  88% {
+    transform: translate3d(16px, 82px, 0) scale(0.86) rotate(5deg);
+    opacity: 0.72;
+  }
+
+  100% {
+    transform: translate3d(16px, 82px, 0) scale(0.86) rotate(5deg);
+    opacity: 0;
+  }
+}
+
+@keyframes add-card-stack-pulse {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  46% {
+    transform: translateY(8px);
+  }
+}
+
+@keyframes add-card-trail-loop {
+  0% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+
+  30% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+}
+
+.success-new-card,
+.success-new-card-glow {
+  animation: add-card-to-wallet 2.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  transform-origin: center;
+}
+
+.success-old-card.middle {
+  animation: add-card-stack-pulse 2.6s ease-in-out infinite;
+}
+
+.success-motion-trail {
+  animation: add-card-trail-loop 2.6s ease-in-out infinite;
+  transform-origin: left center;
+}
+
+.mobile-cover .add-flow-fixed-layer {
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  transform: none;
 }
 }

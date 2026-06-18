@@ -43,7 +43,13 @@ function resetPageScroll() {
   requestAnimationFrame(reset);
 }
 
-function HomeStatsShell({ route, direction, prefersReducedMotion, navigate }) {
+function HomeStatsShell({
+  route,
+  direction,
+  prefersReducedMotion,
+  navigate,
+  focusCardId
+}) {
   const active = route === 'stats' ? 'stats' : 'home';
   const fixedChildren = (
     <>
@@ -87,7 +93,7 @@ function HomeStatsShell({ route, direction, prefersReducedMotion, navigate }) {
           {route === 'stats' ? (
             <StatsPage />
           ) : (
-            <HomePage navigate={navigate} />
+            <HomePage navigate={navigate} focusCardId={focusCardId} />
           )}
         </motion.div>
       </AnimatePresence>
@@ -112,6 +118,7 @@ function RoutedApp() {
   const location = useLocation();
   const routerNavigate = useNavigate();
   const route = getRoute(location.pathname);
+  const focusCardId = new URLSearchParams(location.search).get('focus');
   const previousRouteRef = useRef(route);
   const direction = routeOrder[route] - routeOrder[previousRouteRef.current];
 
@@ -151,6 +158,7 @@ function RoutedApp() {
               direction={direction}
               prefersReducedMotion={prefersReducedMotion}
               navigate={navigate}
+              focusCardId={focusCardId}
             />
           }
         />
@@ -162,6 +170,7 @@ function RoutedApp() {
               direction={direction}
               prefersReducedMotion={prefersReducedMotion}
               navigate={navigate}
+              focusCardId={focusCardId}
             />
           }
         />

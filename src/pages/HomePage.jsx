@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { AnimatedValue } from '../components/AnimatedValue.jsx';
 import { TransactionRow } from '../components/Rows.jsx';
@@ -43,10 +43,24 @@ function CardFace({ card }) {
   );
 }
 
-export function HomePage({ navigate }) {
-  const [activeCardIndex, setActiveCardIndex] = useState(2);
+function getCardIndexById(cardId) {
+  if (!cardId) return 2;
+
+  const index = cardDeck.findIndex(card => card.id === cardId);
+  return index >= 0 ? index : 2;
+}
+
+export function HomePage({ navigate, focusCardId }) {
+  const [activeCardIndex, setActiveCardIndex] = useState(() =>
+    getCardIndexById(focusCardId)
+  );
   const swipeRef = useRef({ startX: 0, startY: 0, didSwipe: false });
   const activeCard = cardDeck[activeCardIndex];
+
+  useEffect(() => {
+    if (!focusCardId) return;
+    setActiveCardIndex(getCardIndexById(focusCardId));
+  }, [focusCardId]);
 
   const switchCard = direction => {
     setActiveCardIndex(

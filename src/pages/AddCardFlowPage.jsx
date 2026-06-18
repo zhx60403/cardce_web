@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { AnimatedValue } from '../components/AnimatedValue.jsx';
 import { FlowHeader, FlowProgress, PhoneShell } from '../components/Shell.jsx';
@@ -6,16 +7,22 @@ import {
   addCardSteps,
   allRegions,
   bankOptions,
-  confirmFields,
-  hotRegions,
   productOptions
 } from '../data/mockData.js';
+
+const dayOptions = Array.from({ length: 31 }, (_, index) => index + 1);
 
 export function AddCardFlowPage({ navigate }) {
   const [step, setStep] = useState(0);
   const [selectedRegion, setSelectedRegion] = useState('中国香港');
   const [selectedBank, setSelectedBank] = useState('HSBC');
   const [selectedProduct, setSelectedProduct] = useState('pulse');
+  const [cardInfo, setCardInfo] = useState({
+    last4: '8821',
+    note: '日常餐饮',
+    billDay: '18',
+    paymentDay: '8'
+  });
   const currentStep = addCardSteps[step];
   const progressWidth = (step + 1) * 69;
   const stepClass =
@@ -29,8 +36,17 @@ export function AddCardFlowPage({ navigate }) {
       ? 'confirm-step'
       : 'success-step';
   const isSuccessStep = step === 4;
-  const fixedChildren = (
-    <>
+  const updateCardInfo = (field, value) => {
+    setCardInfo(current => ({
+      ...current,
+      [field]:
+        field === 'last4' ? value.replace(/\D/g, '').slice(0, 4) : value
+    }));
+  };
+  const goNext =
+    step === 4 ? navigate('/?focus=pulse') : () => setStep(Math.min(step + 1, 4));
+  const fixedButtons = (
+    <div className="add-flow-fixed-layer">
       {step > 0 && !isSuccessStep ? (
         <button
           className="add-flow-bottom-button back"
@@ -45,73 +61,76 @@ export function AddCardFlowPage({ navigate }) {
         className={`add-flow-bottom-button ${isSuccessStep ? 'done' : 'next'}`}
         type="button"
         aria-label={isSuccessStep ? '确定并返回首页' : '下一步'}
-        onClick={
-          isSuccessStep ? navigate('/') : () => setStep(Math.min(step + 1, 4))
-        }
+        onClick={goNext}
       >
         {isSuccessStep ? '✓' : '→'}
       </button>
-    </>
+    </div>
   );
 
   return (
-    <PhoneShell
-      className={`add-card-flow-page ${stepClass}`}
-      fixedChildren={fixedChildren}
-    >
-      <FlowHeader
-        title={isSuccessStep ? 'Cardce' : '新增卡'}
-        subtitle={currentStep}
-      />
+    <>
+      <PhoneShell className={`add-card-flow-page ${stepClass}`}>
+        <FlowHeader title={isSuccessStep ? 'Cardce' : '新增卡片'} subtitle={currentStep} />
 
-      <button
-        className="add-flow-close-button"
-        type="button"
-        aria-label="关闭并返回首页"
-        onClick={navigate('/')}
-      >
-        ×
-      </button>
+        {!isSuccessStep ? (
+          <button
+            className="add-flow-close-button"
+            type="button"
+            aria-label="关闭并返回首页"
+            onClick={navigate('/')}
+          >
+            ×
+          </button>
+        ) : null}
 
-      <FlowProgress step={step + 1} label={currentStep} width={progressWidth} />
+        <FlowProgress step={step + 1} label={currentStep} width={progressWidth} />
 
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key={step}
-          className="add-step-transition-layer"
-          initial={{
-            opacity: 0,
-            x: step === 0 ? -18 : 18,
-            filter: 'blur(6px)'
-          }}
-          animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-          exit={{ opacity: 0, x: step === 0 ? 18 : -18, filter: 'blur(6px)' }}
-          transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {step === 0 ? (
-            <RegionStep
-              selectedRegion={selectedRegion}
-              onSelectRegion={setSelectedRegion}
-            />
-          ) : null}
-          {step === 1 ? (
-            <BankStep
-              selectedRegion={selectedRegion}
-              selectedBank={selectedBank}
-              onSelectBank={setSelectedBank}
-            />
-          ) : null}
-          {step === 2 ? (
-            <ProductStep
-              selectedProduct={selectedProduct}
-              onSelectProduct={setSelectedProduct}
-            />
-          ) : null}
-          {step === 3 ? <ConfirmDetailsStep /> : null}
-          {step === 4 ? <SuccessStep /> : null}
-        </motion.div>
-      </AnimatePresence>
-    </PhoneShell>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={step}
+            className="add-step-transition-layer"
+            initial={{
+              opacity: 0,
+              x: step === 0 ? -18 : 18,
+              filter: 'blur(6px)'
+            }}
+            animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, x: step === 0 ? 18 : -18, filter: 'blur(6px)' }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {step === 0 ? (
+              <RegionStep
+                selectedRegion={selectedRegion}
+                onSelectRegion={setSelectedRegion}
+              />
+            ) : null}
+            {step === 1 ? (
+              <BankStep
+                selectedRegion={selectedRegion}
+                selectedBank={selectedBank}
+                onSelectBank={setSelectedBank}
+              />
+            ) : null}
+            {step === 2 ? (
+              <ProductStep
+                selectedProduct={selectedProduct}
+                onSelectProduct={setSelectedProduct}
+              />
+            ) : null}
+            {step === 3 ? (
+              <ConfirmDetailsStep
+                cardInfo={cardInfo}
+                onChangeCardInfo={updateCardInfo}
+              />
+            ) : null}
+            {step === 4 ? <SuccessStep /> : null}
+          </motion.div>
+        </AnimatePresence>
+      </PhoneShell>
+
+      {createPortal(fixedButtons, document.body)}
+    </>
   );
 }
 
@@ -119,10 +138,6 @@ function RegionStep({ selectedRegion, onSelectRegion }) {
   return (
     <>
       {/*
-      <div className="region-search-field" role="search">
-        <span>搜索地区</span>
-      </div>
-      */}
       <section className="hot-region-section" aria-label="热门地区">
         <h2>热门地区</h2>
         <div className="hot-region-list">
@@ -141,6 +156,7 @@ function RegionStep({ selectedRegion, onSelectRegion }) {
           ))}
         </div>
       </section>
+      */}
 
       <section className="all-region-section" aria-label="所有地区">
         <h2>所有地区</h2>
@@ -171,9 +187,11 @@ function BankStep({ selectedRegion, selectedBank, onSelectBank }) {
   return (
     <>
       <p className="bank-region-hint">已根据 {selectedRegion} 加载银行</p>
+      {/*
       <div className="bank-search-field" role="search">
         <span>搜索银行</span>
       </div>
+      */}
       <section className="bank-list" aria-label="银行列表">
         {bankOptions.map((bank, index) => (
           <button
@@ -243,7 +261,7 @@ function ProductStep({ selectedProduct, onSelectProduct }) {
   );
 }
 
-function ConfirmDetailsStep() {
+function ConfirmDetailsStep({ cardInfo, onChangeCardInfo }) {
   return (
     <>
       <section className="confirm-card-face" aria-label="Pulse Card">
@@ -254,7 +272,9 @@ function ConfirmDetailsStep() {
         <span className="confirm-card-cashback">
           <AnimatedValue value="本月 HKD 234.50" />
         </span>
-        <span className="confirm-card-last4">•••• 8821</span>
+        <span className="confirm-card-last4">
+          •••• {cardInfo.last4 || '----'}
+        </span>
         <b className="confirm-card-rate">
           <AnimatedValue value="7.4%" />
         </b>
@@ -264,14 +284,50 @@ function ConfirmDetailsStep() {
       <section className="confirm-details-surface" aria-label="卡片详细信息">
         <h2>卡片信息</h2>
         <div className="confirm-field-grid">
-          {confirmFields.map(field => (
-            <button className="confirm-field" type="button" key={field.label}>
-              <span>{field.label}</span>
-              <strong>
-                <AnimatedValue value={field.value} />
-              </strong>
-            </button>
-          ))}
+          <label className="confirm-field">
+            <span>卡号尾号</span>
+            <input
+              inputMode="numeric"
+              maxLength={4}
+              value={cardInfo.last4}
+              onChange={event => onChangeCardInfo('last4', event.target.value)}
+            />
+          </label>
+          <label className="confirm-field">
+            <span>备注</span>
+            <input
+              value={cardInfo.note}
+              onChange={event => onChangeCardInfo('note', event.target.value)}
+            />
+          </label>
+          <label className="confirm-field">
+            <span>账单日</span>
+            <select
+              value={cardInfo.billDay}
+              onChange={event => onChangeCardInfo('billDay', event.target.value)}
+            >
+              {dayOptions.map(day => (
+                <option key={day} value={day}>
+                  每月 {day} 日
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="confirm-field">
+            <span>还款日</span>
+            <select
+              value={cardInfo.paymentDay}
+              onChange={event =>
+                onChangeCardInfo('paymentDay', event.target.value)
+              }
+            >
+              {dayOptions.map(day => (
+                <option key={day} value={day}>
+                  每月 {day} 日
+                </option>
+              ))}
+            </select>
+          </label>
         </div>
         <div className="confirm-rules-summary">
           <h3>默认 cashback 规则</h3>
@@ -291,7 +347,7 @@ function SuccessStep() {
   return (
     <section className="success-wallet-surface" aria-label="添加成功">
       <h2>已加入卡包</h2>
-      <p className="success-wallet-hint">新卡缩放进入卡堆，旧卡自然让出位置</p>
+      <p className="success-wallet-hint">新卡循环加入卡堆，完成后聚焦新卡</p>
       <div className="success-card-stack" aria-hidden="true">
         <span className="success-old-card back" />
         <span className="success-old-card middle" />
@@ -306,7 +362,7 @@ function SuccessStep() {
         <span className="success-motion-trail" />
       </div>
       <div className="success-toast">Pulse Card 已加入卡包</div>
-      <p className="success-auto-return-hint">自动回到卡片页 · 聚焦新卡</p>
+      <p className="success-auto-return-hint">点击确定返回首页 · 自动聚焦新卡</p>
     </section>
   );
 }
