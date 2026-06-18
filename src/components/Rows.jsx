@@ -1,4 +1,5 @@
 import React from "react";
+import { AnimatedValue } from './AnimatedValue.jsx';
 
 export function TransactionRow({ item }) {
   return (
@@ -9,8 +10,12 @@ export function TransactionRow({ item }) {
         <span>{item[1]}</span>
       </div>
       <div className="transaction-amount">
-        <b>{item[2]}</b>
-        <span>{item[3]}</span>
+        <b>
+          <AnimatedValue value={item[2]} />
+        </b>
+        <span>
+          <AnimatedValue value={item[3]} />
+        </span>
       </div>
     </div>
   );
@@ -21,7 +26,9 @@ export function DetailRule({ className, title, value, meta }) {
     <section className={`detail-rule-card ${className}`}>
       <div className="detail-rule-head">
         <b>{title}</b>
-        <strong>{value}</strong>
+        <strong>
+          <AnimatedValue value={value} />
+        </strong>
       </div>
       <p>{meta}</p>
       <div className="detail-progress"><span /></div>

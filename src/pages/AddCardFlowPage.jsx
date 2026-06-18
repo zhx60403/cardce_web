@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatedValue } from '../components/AnimatedValue.jsx';
 import { FlowHeader, FlowProgress, PhoneShell } from '../components/Shell.jsx';
 import {
   addCardSteps,
@@ -250,9 +251,13 @@ function ConfirmDetailsStep() {
         <span className="confirm-card-chip" />
         <span className="confirm-card-bank">HSBC</span>
         <strong className="confirm-card-name">Pulse Card</strong>
-        <span className="confirm-card-cashback">本月 HKD 234.50</span>
+        <span className="confirm-card-cashback">
+          <AnimatedValue value="本月 HKD 234.50" />
+        </span>
         <span className="confirm-card-last4">•••• 8821</span>
-        <b className="confirm-card-rate">7.4%</b>
+        <b className="confirm-card-rate">
+          <AnimatedValue value="7.4%" />
+        </b>
         <i className="confirm-card-network">VISA</i>
       </section>
 
@@ -262,7 +267,9 @@ function ConfirmDetailsStep() {
           {confirmFields.map(field => (
             <button className="confirm-field" type="button" key={field.label}>
               <span>{field.label}</span>
-              <strong>{field.value}</strong>
+              <strong>
+                <AnimatedValue value={field.value} />
+              </strong>
             </button>
           ))}
         </div>

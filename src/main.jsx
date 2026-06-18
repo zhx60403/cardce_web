@@ -25,10 +25,6 @@ function getRoute(pathname) {
   return 'home';
 }
 
-function isHomeStatsRoute(route) {
-  return route === 'home' || route === 'stats';
-}
-
 function resetPageScroll() {
   const reset = () => {
     window.scrollTo({ left: 0, top: 0, behavior: 'auto' });
@@ -102,6 +98,7 @@ function HomeStatsShell({ route, direction, prefersReducedMotion, navigate }) {
 function App() {
   useViewportScale();
   useGlobalHaptics();
+  useManualScrollRestoration();
 
   return (
     <BrowserRouter>
@@ -119,15 +116,10 @@ function RoutedApp() {
   const direction = routeOrder[route] - routeOrder[previousRouteRef.current];
 
   useEffect(() => {
-    const previousRoute = previousRouteRef.current;
-    if (
-      previousRoute !== route &&
-      isHomeStatsRoute(previousRoute) &&
-      isHomeStatsRoute(route)
-    ) {
-      resetPageScroll();
-    }
+    resetPageScroll();
+  }, [location.pathname]);
 
+  useEffect(() => {
     previousRouteRef.current = route;
   }, [route]);
 
@@ -233,6 +225,19 @@ const pageVariants = {
     filter: prefersReducedMotion ? 'none' : 'blur(6px)'
   })
 };
+
+function useManualScrollRestoration() {
+  useEffect(() => {
+    if (!('scrollRestoration' in window.history)) return undefined;
+
+    const previousRestoration = window.history.scrollRestoration;
+    window.history.scrollRestoration = 'manual';
+
+    return () => {
+      window.history.scrollRestoration = previousRestoration;
+    };
+  }, []);
+}
 
 function useGlobalHaptics() {
   useEffect(() => {

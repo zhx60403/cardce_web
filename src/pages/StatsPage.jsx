@@ -1,4 +1,5 @@
 import React from 'react';
+import { AnimatedValue } from '../components/AnimatedValue.jsx';
 
 export function StatsPage() {
   return (
@@ -14,20 +15,28 @@ export function StatsPage() {
         <span className="stats-aura stats-aura-liquid" />
         <span className="stats-aura stats-aura-achievement" />
         <p className="hero-label">本月总 cashback</p>
-        <strong className="hero-amount">HKD 486</strong>
+        <strong className="hero-amount">
+          <AnimatedValue value="HKD 486" />
+        </strong>
         <p className="hero-milestone">
           年度 cashback 已突破
           <br />
-          HKD 3,000
+          <AnimatedValue value="HKD 3,000" />
         </p>
-        <p className="hero-comparison">比上月 +12.4% · 表现很漂亮</p>
+        <p className="hero-comparison">
+          比上月 <AnimatedValue value="+12.4%" /> · 表现很漂亮
+        </p>
         <div className="stat-pill annual-pill">
           <span>年度累计</span>
-          <b>HKD 3,182</b>
+          <b>
+            <AnimatedValue value="HKD 3,182" />
+          </b>
         </div>
         <div className="stat-pill rate-pill">
           <span>平均返现率</span>
-          <b>2.61%</b>
+          <b>
+            <AnimatedValue value="2.61%" />
+          </b>
         </div>
         <div className="emoji-glow" />
         <div className="emoji-face">
@@ -48,14 +57,18 @@ export function StatsPage() {
         <h2>贡献来源</h2>
         <div className="metric-row metric-card">
           <b>Pulse Card</b>
-          <strong>HKD 318</strong>
+          <strong>
+            <AnimatedValue value="HKD 318" />
+          </strong>
         </div>
         <div className="track card-track">
           <span />
         </div>
         <div className="metric-row metric-category">
           <b>餐饮与线上消费</b>
-          <strong>66%</strong>
+          <strong>
+            <AnimatedValue value="66%" />
+          </strong>
         </div>
         <div className="track category-track">
           <span />
@@ -79,4 +92,3 @@ export function StatsPage() {
     </>
   );
 }
-

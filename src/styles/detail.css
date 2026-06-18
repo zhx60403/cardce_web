@@ -5,6 +5,35 @@
   overflow: visible;
 }
 
+.detail-fixed-layer {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: var(--target-width);
+  height: var(--target-height);
+  transform: translate(-50%, -50%) scale(var(--app-scale));
+  transform-origin: center;
+  pointer-events: none;
+  z-index: 140;
+}
+
+.detail-fixed-layer > * {
+  pointer-events: auto;
+}
+
+.mobile-cover .detail-fixed-layer {
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  transform: none;
+}
+
+.mobile-cover .detail-back-button {
+  position: fixed;
+  left: 42px;
+  bottom: max(20px, env(safe-area-inset-bottom));
+}
+
 .detail-hero-card {
   position: absolute;
   left: 24px;

@@ -630,8 +630,8 @@
   position: absolute;
   left: 24px;
   top: 88px;
-  width: 315px;
-  height: 196px;
+  width: 345px;
+  height: 216px;
   border-radius: 26px;
   background: #087b72; /* screenshot-calibrated; MCP did not return frame fill */
   border: 1px solid #ffffff47;

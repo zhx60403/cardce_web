@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import { AnimatedValue } from '../components/AnimatedValue.jsx';
 import { TransactionRow } from '../components/Rows.jsx';
 import { cardDeck, stackSlots } from '../data/mockData.js';
 
@@ -24,9 +25,13 @@ function CardFace({ card }) {
         {pulse ? <span /> : null}
       </span>
       <strong>{card.name}</strong>
-      <em>{card.cardMetric}</em>
+      <em>
+        <AnimatedValue value={card.cardMetric} />
+      </em>
       <small>{card.last4}</small>
-      <b>{card.rate}</b>
+      <b>
+        <AnimatedValue value={card.rate} />
+      </b>
       {pulse ? (
         <>
           <span className="network-dot a" />
@@ -172,7 +177,9 @@ export function HomePage({ navigate }) {
             transition={{ duration: 0.22 }}
           >
             <h2>当前聚焦卡片</h2>
-            <strong>{activeCard.summaryValue}</strong>
+            <strong>
+              <AnimatedValue value={activeCard.summaryValue} />
+            </strong>
             <p>{activeCard.summaryText}</p>
           </motion.section>
 
