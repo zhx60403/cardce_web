@@ -342,7 +342,7 @@
 .cards-summary-panel {
   left: 24px;
   top: 464px;
-  width: 317px;
+  width: 345px;
   height: 146px;
   padding: 16px 20px;
   border-radius: 26px;
@@ -382,7 +382,7 @@
 .cards-rule-panel {
   left: 24px;
   top: 626px;
-  width: 317px;
+  width: 345px;
   height: 104px;
   padding: 13px 0 0 16px;
   border-radius: 22px;
@@ -478,7 +478,7 @@
 }
 
 .transaction-list {
-  height: 173px;
+  min-height: 173px;
   overflow-x: hidden;
   overflow-y: auto;
   padding-right: 4px;
