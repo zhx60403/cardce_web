@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { AnimatedValue } from '../components/AnimatedValue.jsx';
@@ -8,20 +8,33 @@ import {
   allRegions,
   bankOptions,
   productOptions
-} from '../data/mockData.js';
+} from '../data/addCardOptions.js';
+import {
+  clearAddCardDraft,
+  createCardFromForm,
+  readAddCardDraft,
+  writeAddCardDraft
+} from '../data/cardStorage.js';
 
 const dayOptions = Array.from({ length: 31 }, (_, index) => index + 1);
 
-export function AddCardFlowPage({ navigate }) {
+export function AddCardFlowPage({ navigate, onSaveCard }) {
+  const draft = readAddCardDraft();
   const [step, setStep] = useState(0);
-  const [selectedRegion, setSelectedRegion] = useState('中国香港');
-  const [selectedBank, setSelectedBank] = useState('HSBC');
-  const [selectedProduct, setSelectedProduct] = useState('pulse');
+  const [selectedRegion, setSelectedRegion] = useState(
+    draft?.selectedRegion || '中国香港'
+  );
+  const [selectedBank, setSelectedBank] = useState(
+    draft?.selectedBank || 'HSBC'
+  );
+  const [selectedProduct, setSelectedProduct] = useState(
+    draft?.selectedProduct || 'pulse'
+  );
   const [cardInfo, setCardInfo] = useState({
-    last4: '8821',
-    note: '日常餐饮',
-    billDay: '18',
-    paymentDay: '8'
+    last4: draft?.cardInfo?.last4 || '8821',
+    note: draft?.cardInfo?.note || '日常餐饮',
+    billDay: draft?.cardInfo?.billDay || '18',
+    paymentDay: draft?.cardInfo?.paymentDay || '8'
   });
   const currentStep = addCardSteps[step];
   const progressWidth = (step + 1) * 69;
@@ -36,6 +49,16 @@ export function AddCardFlowPage({ navigate }) {
       ? 'confirm-step'
       : 'success-step';
   const isSuccessStep = step === 4;
+
+  useEffect(() => {
+    writeAddCardDraft({
+      selectedRegion,
+      selectedBank,
+      selectedProduct,
+      cardInfo
+    });
+  }, [cardInfo, selectedBank, selectedProduct, selectedRegion]);
+
   const updateCardInfo = (field, value) => {
     setCardInfo(current => ({
       ...current,
@@ -43,8 +66,34 @@ export function AddCardFlowPage({ navigate }) {
         field === 'last4' ? value.replace(/\D/g, '').slice(0, 4) : value
     }));
   };
-  const goNext =
-    step === 4 ? navigate('/?focus=pulse') : () => setStep(Math.min(step + 1, 4));
+
+  const saveCurrentCard = () => {
+    const nextCard = createCardFromForm({
+      selectedBank,
+      selectedProduct,
+      selectedRegion,
+      cardInfo
+    });
+    onSaveCard?.(nextCard);
+    clearAddCardDraft();
+    return nextCard;
+  };
+
+  const goNext = () => {
+    if (step === 3) {
+      saveCurrentCard();
+      setStep(4);
+      return;
+    }
+
+    if (step === 4) {
+      navigate(`/?focus=${selectedProduct}`)();
+      return;
+    }
+
+    setStep(Math.min(step + 1, 4));
+  };
+
   const fixedButtons = (
     <div className="add-flow-fixed-layer">
       {step > 0 && !isSuccessStep ? (

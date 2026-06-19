@@ -31,7 +31,7 @@
 .cards-stack {
   position: absolute;
   left: 24px;
-  top: 88px;
+  top: 64px;
   width: 345px;
   height: 360px;
   cursor: grab;
@@ -41,6 +41,51 @@
 
 .cards-stack:active {
   cursor: grabbing;
+}
+
+.cards-empty-state {
+  position: absolute;
+  left: 24px;
+  top: 104px;
+  width: 345px;
+  min-height: 238px;
+  padding: 28px 24px;
+  border-radius: 30px;
+  background: #ffffffb8;
+  box-shadow: 0 18px 42px rgba(55, 76, 80, 0.07);
+  backdrop-filter: blur(18px);
+}
+
+.cards-empty-state h2 {
+  margin: 0;
+  color: #102124;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 30px;
+}
+
+.cards-empty-state p {
+  margin: 12px 0 0;
+  color: #53666b;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.cards-empty-state a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 24px;
+  min-width: 128px;
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 22px;
+  background: #0f8a80;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 18px;
 }
 
 .bank-card {
@@ -314,7 +359,7 @@
 .cards-scroll-content {
   position: absolute;
   left: 0;
-  top: 448px;
+  top: 424px;
   width: 393px;
   height: auto;
   overflow: visible;

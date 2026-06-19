@@ -3,14 +3,14 @@ import { createPortal } from 'react-dom';
 import { AnimatedValue } from '../components/AnimatedValue.jsx';
 import { PhoneShell } from '../components/Shell.jsx';
 import { DetailRule, TransactionRow } from '../components/Rows.jsx';
-import { transactions } from '../data/mockData.js';
 
-export function CardDetailPage({ navigate }) {
+export function CardDetailPage({ navigate, cards = [] }) {
+  const card = cards.find(item => item.id === 'pulse') || cards[0];
   const metrics = [
-    ['本月消费', '18.6k'],
-    ['平均返现', '2.61%'],
-    ['年度累计', '3,182'],
-    ['单卡统计', '查看']
+    ['本月消费', card ? '18.6k' : '0'],
+    ['平均返现', card?.rate || '0%'],
+    ['年度累计', card ? '3,182' : '0'],
+    ['单卡统计', card ? '查看' : '暂无']
   ];
 
   return (
@@ -18,31 +18,31 @@ export function CardDetailPage({ navigate }) {
       <PhoneShell className="detail-page">
         <header className="detail-top-bar">
           <div className="detail-title-cluster">
-            <h1>Pulse Card</h1>
-            <p>单卡详情</p>
+            <h1>{card?.name || '卡片详情'}</h1>
+            <p>{card ? '单卡详情' : '暂无本地卡片数据'}</p>
           </div>
         </header>
 
-        <section className="detail-hero-card" aria-label="Pulse Card">
+        <section className="detail-hero-card" aria-label={card?.name || '暂无卡片'}>
           <div className="detail-reflection" />
           <div className="detail-ambient" />
           <div className="detail-micro" />
           <div className="detail-edge" />
-          <span className="detail-bank">HSBC</span>
+          <span className="detail-bank">{card?.bank || 'Cardce'}</span>
           <span className="detail-chip">
             <span className="detail-chip-inset" />
             <span className="detail-chip-v" />
             <span className="detail-chip-h" />
           </span>
-          <strong className="detail-card-name">Pulse Card</strong>
+          <strong className="detail-card-name">{card?.name || '暂无卡片'}</strong>
           <em className="detail-cashback">
-            <AnimatedValue value="预计 HKD 486.32" />
+            <AnimatedValue value={card?.cardMetric || 'HKD 0'} />
           </em>
-          <small className="detail-last4">•••• 8821</small>
+          <small className="detail-last4">{card?.last4 || '•••• ----'}</small>
           <b className="detail-rate">
-            <AnimatedValue value="7.4%" />
+            <AnimatedValue value={card?.rate || '0%'} />
           </b>
-          <i className="detail-network">VISA</i>
+          <i className="detail-network">{card?.network || 'VISA'}</i>
           <span className="detail-network-dot dot-a" />
           <span className="detail-network-dot dot-b" />
         </section>
@@ -62,21 +62,22 @@ export function CardDetailPage({ navigate }) {
         <DetailRule
           className="cashback-rule"
           title="本月预计 cashback"
-          value="HKD 486"
-          meta="本月消费 HKD 18,620 · 平均返现率 2.61%"
+          value={card ? 'HKD 486' : 'HKD 0'}
+          meta={card?.summaryText || '新增卡片后会生成本月预计返现。'}
         />
         <DetailRule
           className="quota-rule"
           title="返现额度 · 返现规则"
-          value="剩 540"
-          meta="额外 5%：餐饮 / 线上消费 · 月额度 HKD 2,000"
+          value={card ? '剩 540' : '暂无'}
+          meta={card?.ruleText || '暂无返现规则数据。'}
         />
 
         <section className="detail-transactions">
           <h2>全部交易</h2>
-          {transactions.map(item => (
+          {(card?.transactions || []).map(item => (
             <TransactionRow key={item[0]} item={item} />
           ))}
+          {!card ? <p className="detail-empty-copy">暂无交易数据</p> : null}
         </section>
       </PhoneShell>
 

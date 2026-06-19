@@ -165,7 +165,7 @@
 }
 
 .all-region-section h2 {
-  top: 146px;
+  top: 122px;
 }
 
 .hot-region-list {
@@ -226,7 +226,7 @@
 .region-row-list {
   position: absolute;
   left: 42px;
-  top: 174px;
+  top: 150px;
   width: 309px;
   height: 336px;
   pointer-events: auto;
@@ -297,7 +297,7 @@
 .bank-region-hint {
   position: absolute;
   left: 42px;
-  top: 136px;
+  top: 112px;
   width: 150px;
   height: 16px;
   margin: 0;
@@ -337,7 +337,7 @@
 .bank-list {
   position: absolute;
   left: 42px;
-  top: 166px;
+  top: 142px;
   width: 309px;
   height: 478px;
   margin: 0;
@@ -425,7 +425,7 @@
 .product-selection-surface {
   position: absolute;
   left: 24px;
-  top: 128px;
+  top: 104px;
   width: 345px;
   height: 624px;
   margin: 0;
@@ -645,7 +645,7 @@
 .confirm-card-face {
   position: absolute;
   left: 24px;
-  top: 88px;
+  top: 64px;
   width: 345px;
   height: 216px;
   border-radius: 26px;
@@ -763,7 +763,7 @@
 .confirm-details-surface {
   position: absolute;
   left: 24px;
-  top: 332px;
+  top: 308px;
   width: 345px;
   height: 472px;
   border-radius: 36px;
@@ -934,7 +934,7 @@
 .success-wallet-surface {
   position: absolute;
   left: 24px;
-  top: 148px;
+  top: 124px;
   width: 345px;
   height: 620px;
   border-radius: 36px;

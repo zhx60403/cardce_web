@@ -37,7 +37,7 @@
 .detail-hero-card {
   position: absolute;
   left: 24px;
-  top: 88px;
+  top: 76px;
   width: 345px;
   height: 216px;
   border-radius: 30px;
@@ -230,7 +230,7 @@
 .detail-metric-strip {
   position: absolute;
   left: 24px;
-  top: 320px;
+  top: 308px;
   width: 345px;
   height: 60px;
 }
@@ -288,11 +288,11 @@
 }
 
 .cashback-rule {
-  top: 396px;
+  top: 384px;
 }
 
 .quota-rule {
-  top: 516px;
+  top: 504px;
 }
 
 .detail-rule-head {
@@ -380,7 +380,7 @@
 .detail-transactions {
   position: absolute;
   left: 24px;
-  top: 636px;
+  top: 624px;
   width: 345px;
   height: auto;
   min-height: 230px;
@@ -399,5 +399,13 @@
   font-size: 17px;
   font-weight: 600;
   line-height: 21px;
+}
+
+.detail-empty-copy {
+  margin: 18px 0 0;
+  color: #718281;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
 }
 }

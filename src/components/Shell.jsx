@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export function PhoneShell({ className, children, fixedChildren }) {
   return (
@@ -14,8 +14,8 @@ export function PhoneShell({ className, children, fixedChildren }) {
 export function FlowHeader({
   title,
   subtitle,
-  barClassName = "add-region-top-bar",
-  clusterClassName = "add-region-title-cluster",
+  barClassName = 'add-region-top-bar',
+  clusterClassName = 'add-region-title-cluster'
 }) {
   return (
     <header className={barClassName}>
@@ -35,12 +35,24 @@ export function FlowProgress({ step, label, width }) {
   );
 }
 
-export function Dock({ active, navigate }) {
+export function Dock({ active, navigate, getHref = path => path }) {
   return (
     <nav className="dock" aria-label="底部导航">
-      <span className={`dock-active ${active === "stats" ? "stats" : "home"}`} />
-      <a className={active === "home" ? "active" : ""} href="/" onClick={navigate("/")}>首页</a>
-      <a className={active === "stats" ? "active" : ""} href="/stats" onClick={navigate("/stats")}>统计</a>
+      <span className={`dock-active ${active === 'stats' ? 'stats' : 'home'}`} />
+      <a
+        className={active === 'home' ? 'active' : ''}
+        href={getHref('/')}
+        onClick={navigate('/')}
+      >
+        首页
+      </a>
+      <a
+        className={active === 'stats' ? 'active' : ''}
+        href={getHref('/stats')}
+        onClick={navigate('/stats')}
+      >
+        统计
+      </a>
     </nav>
   );
 }

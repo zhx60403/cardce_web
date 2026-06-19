@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
-  BrowserRouter,
+  HashRouter,
   Navigate,
   Route,
   Routes,
@@ -14,9 +14,15 @@ import { AddCardFlowPage } from './pages/AddCardFlowPage.jsx';
 import { CardDetailPage } from './pages/CardDetailPage.jsx';
 import { HomePage } from './pages/HomePage.jsx';
 import { StatsPage } from './pages/StatsPage.jsx';
+import { readStoredCards, upsertStoredCard, writeStoredCards } from './data/cardStorage.js';
 import './styles.css';
 
 const routeOrder = { home: 0, addRegion: 1, detail: 2, stats: 3 };
+const appBase = import.meta.env.BASE_URL || '/';
+
+function getHref(path) {
+  return `${appBase}#${path}`;
+}
 
 function getRoute(pathname) {
   if (pathname.startsWith('/cards/new/region')) return 'addRegion';
@@ -48,6 +54,8 @@ function HomeStatsShell({
   direction,
   prefersReducedMotion,
   navigate,
+  getHref,
+  cards,
   focusCardId
 }) {
   const active = route === 'stats' ? 'stats' : 'home';
@@ -56,14 +64,14 @@ function HomeStatsShell({
       {route === 'home' ? (
         <a
           className="cards-add-button"
-          href="/cards/new/region"
+          href={getHref('/cards/new/region')}
           aria-label="新增卡片"
           onClick={navigate('/cards/new/region')}
         >
           +
         </a>
       ) : null}
-      <Dock active={active} navigate={navigate} />
+      <Dock active={active} navigate={navigate} getHref={getHref} />
     </>
   );
 
@@ -91,9 +99,14 @@ function HomeStatsShell({
           }}
         >
           {route === 'stats' ? (
-            <StatsPage />
+            <StatsPage cards={cards} />
           ) : (
-            <HomePage navigate={navigate} focusCardId={focusCardId} />
+            <HomePage
+              navigate={navigate}
+              getHref={getHref}
+              cards={cards}
+              focusCardId={focusCardId}
+            />
           )}
         </motion.div>
       </AnimatePresence>
@@ -105,15 +118,24 @@ function App() {
   useViewportScale();
   useGlobalHaptics();
   useManualScrollRestoration();
+  const [cards, setCards] = useState(() => readStoredCards());
+
+  const saveCard = card => {
+    setCards(currentCards => {
+      const nextCards = upsertStoredCard(currentCards, card);
+      writeStoredCards(nextCards);
+      return nextCards;
+    });
+  };
 
   return (
-    <BrowserRouter>
-      <RoutedApp />
-    </BrowserRouter>
+    <HashRouter>
+      <RoutedApp cards={cards} onSaveCard={saveCard} />
+    </HashRouter>
   );
 }
 
-function RoutedApp() {
+function RoutedApp({ cards, onSaveCard }) {
   const prefersReducedMotion = useReducedMotion();
   const location = useLocation();
   const routerNavigate = useNavigate();
@@ -158,6 +180,8 @@ function RoutedApp() {
               direction={direction}
               prefersReducedMotion={prefersReducedMotion}
               navigate={navigate}
+              getHref={getHref}
+              cards={cards}
               focusCardId={focusCardId}
             />
           }
@@ -170,6 +194,8 @@ function RoutedApp() {
               direction={direction}
               prefersReducedMotion={prefersReducedMotion}
               navigate={navigate}
+              getHref={getHref}
+              cards={cards}
               focusCardId={focusCardId}
             />
           }
@@ -201,11 +227,13 @@ function RoutedApp() {
         <Routes location={location}>
           <Route
             path="/cards/new/region"
-            element={<AddCardFlowPage navigate={navigate} />}
+            element={
+              <AddCardFlowPage navigate={navigate} onSaveCard={onSaveCard} />
+            }
           />
           <Route
             path="/cards/pulse"
-            element={<CardDetailPage navigate={navigate} />}
+            element={<CardDetailPage navigate={navigate} cards={cards} />}
           />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
